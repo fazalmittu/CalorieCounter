@@ -76,7 +76,7 @@ def login():
     print("Welcome to the Calorie Tracker App!")
     first_name = input("Enter your first name: ")
     last_name = input("Enter your last name: ")
-    new_file = open("Profiles/" + first_name + last_name + ".txt", "w+")
+    new_file = open(first_name + last_name + ".txt", "w+")
     new_file.write(first_name+"\r\n") #WRITE TO A SPECIFIC LINE
     new_file.write(last_name + "\r\n")
     new_file.close()
@@ -93,7 +93,7 @@ def add_cal():
     for key in index_dict:
         if index_dict[key] == index_dict[int(food_selection)]:
             food_add = index_dict[key]
-    file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
+    file = open(first_name + last_name + "CAL.txt", "r")
     original_cal = 0
     # val_line = 0
     # for index, line in enumerate(file):
@@ -105,7 +105,7 @@ def add_cal():
     original_cal = float(val_line[0])
     print(original_cal)
     new_cal = original_cal + food_dict[food_add]
-    file = open("Profiles/" + first_name + last_name + "CAL.txt", "w")
+    file = open(first_name + last_name + "CAL.txt", "w")
     file.write(str(new_cal) + "\r\n")
 
 
