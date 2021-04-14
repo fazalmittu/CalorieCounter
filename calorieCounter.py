@@ -8,6 +8,13 @@
 
 import numpy as np
 import time
+import os
+
+dir = "Profiles"
+orig_dir = "/Users/fazalmittu/PycharmProjects/CalorieCounter/"
+path = os.path.join(orig_dir, dir)
+
+os.mkdir(path)
 
 index_dict = {
     1 : "almond",
@@ -23,7 +30,6 @@ index_dict = {
     11 : "banana",
     12 : "1 cup of blueberries"
 }
-
 food_dict = {
     "almond" : 8.15,
     "energy bar" : 140,
@@ -182,12 +188,3 @@ def main_page():
         main_page()
 
 main_page()
-
-
-
-
-
-
-
-
-
