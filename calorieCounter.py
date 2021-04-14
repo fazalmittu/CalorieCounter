@@ -1,7 +1,10 @@
 #TODO: DAY 1 - create list that contains known foods and give them set calorie amounts
-#TODO: DAY 1 - create method to add calories
-#TODO: DAY 1 - create method to view all food consumed
 #TODO: DAY 1 - create login mechanism
+#TODO: DAY 1 - create loading method
+#TODO: DAY 1 - create method to add calories
+
+#TODO: DAY 2 - create method to remove calories
+#TODO: DAY 2 - create method to view all food consumed
 
 import numpy as np
 import time
@@ -107,7 +110,58 @@ def add_cal():
         file.write(str(new_cal) + "\r\n")
     finally:
         file.close()
+    for i in range(7):
+        print("")
+    main_page()
 
+def remove_cal():
+    print_index = 1  # For printing dictionary
+    for key in food_dict:
+        print(str(print_index) + ". " + key)
+        print_index += 1
+    food_selection = input("Enter the corresponding number of your selection: ")
+    for key in index_dict:
+        if index_dict[key] == index_dict[int(food_selection)]:
+            food_add = index_dict[key]
+    try:
+        file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
+        val_line = file.readlines()
+        original_cal = float(val_line[0])
+        if original_cal >= food_dict[food_add]:
+            new_cal = original_cal - food_dict[food_add]
+        else:
+            print("Sorry, the value you wish to remove is greater than the existing total.")
+            print("Returning to Main Menu")
+            loading_screen()
+            main_page()
+        file = open("Profiles/" + first_name + last_name + "CAL.txt", "w")
+        file.write(str(new_cal) + "\r\n")
+    except FileNotFoundError:
+        print("Your profile is new. No calories have been added as yet.")
+        print("Returning to main menu")
+        loading_screen()
+        main_page()
+
+    finally:
+        file.close()
+    loading_screen()
+    for i in range(7):
+        print("")
+    main_page()
+
+def show_cal():
+    try:
+        file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
+        val_line = file.readlines()
+        print("Today you have consumed ", val_line[0], " calories.")
+        temp = input("Press enter to return to the main menu.")
+        loading_screen()
+        main_page()
+    except FileNotFoundError:
+        print("Your profile is new. No calories have been added as yet.")
+        print("Returning to main menu")
+        loading_screen()
+        main_page()
 
 
 def main_page():
@@ -119,9 +173,9 @@ def main_page():
     if int(menu_selection) == 1:
         add_cal()
     elif int(menu_selection) == 2:
-        print("2 selected")
+        remove_cal()
     elif int(menu_selection) == 3:
-        print("3 selected")
+        show_cal()
     else:
         print("Input not Accepted. Returning to Main Menu")
         loading_screen()
