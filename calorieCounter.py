@@ -14,7 +14,11 @@ dir = "Profiles"
 orig_dir = "/Users/fazalmittu/PycharmProjects/CalorieCounter/"
 path = os.path.join(orig_dir, dir)
 
-os.mkdir(path)
+try:
+    os.mkdir(path)
+except FileExistsError:
+    print("")
+
 
 index_dict = {
     1 : "almond",
