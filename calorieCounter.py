@@ -1,11 +1,3 @@
-#TODO: DAY 1 - create list that contains known foods and give them set calorie amounts
-#TODO: DAY 1 - create login mechanism
-#TODO: DAY 1 - create loading method
-#TODO: DAY 1 - create method to add calories
-
-#TODO: DAY 2 - create method to remove calories
-#TODO: DAY 2 - create method to view all food consumed
-
 import numpy as np
 import time
 import os
@@ -75,21 +67,6 @@ def loading_screen():
 
 
 def login():
-    # prof_check = input("Welcome to the Calorie Tracker App! Do you have an existing profile? (Y/N)\n")
-    # if prof_check == "Y":
-    #     print("HI")
-    # elif prof_check == "N":
-    #     print("Let's make you a profile!")
-    #     first_name = input("Enter your first name: ")
-    #     last_name = input("Enter your last name: ")
-    #     new_file = open(first_name + last_name + ".txt", "w+")
-    #     for i in range(10):
-    #         new_file.write("This is line %d\r\n" % (i + 1))
-    # else:
-    #     print("Input not accepted; Restarting Process")
-    #     login()
-
-    #CHANGE: Instead of Asking for Existing Profile, ask for name and built-in open method can create new file if one does not already exist
     print("Welcome to the Calorie Tracker App!")
     first_name = input("Enter your first name: ")
     last_name = input("Enter your last name: ")
@@ -102,10 +79,6 @@ def login():
 first_name, last_name = login()
 
 def add_cal(food_add, food_selection):
-    # print_index = 1 #For printing dictionary
-    # for key in food_dict:
-    #     print(str(print_index) + ". " + key)
-    #     print_index += 1
     try:
         file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
         val_line = file.readlines()
@@ -197,20 +170,6 @@ def show_cal():
         loading_screen()
         print()
         main_page()
-
-# def add_food():
-#     food_selection = input("Enter the name of the food you would like to put in the system: ")
-#     food_cal = input("How many calories are in this new food: ")
-#     try:
-#         food_dict.update({food_selection: int(food_cal)})
-#         index_dict[len(index_dict) + 1] = food_selection
-#     except ValueError:
-#         print("Please enter a valid calorie amount")
-#         time.sleep(2)
-#         loading_screen()
-#         add_food()
-#     print(food_dict)
-
 
 def prompt_food():
     print_dict(food_dict)
