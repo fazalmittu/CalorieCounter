@@ -71,8 +71,6 @@ def loading_screen():
         print(".", end="")
         time.sleep(0.3)
     print("100%")
-    for i in range(7):
-        print("")
     print("----------------------------------------")
 
 
@@ -103,7 +101,7 @@ def login():
 
 first_name, last_name = login()
 
-def add_cal(food_add):
+def add_cal(food_add, food_selection):
     # print_index = 1 #For printing dictionary
     # for key in food_dict:
     #     print(str(print_index) + ". " + key)
@@ -122,47 +120,74 @@ def add_cal(food_add):
         file.write(str(new_cal) + "\r\n")
     finally:
         file.close()
+
+    try:
+        with open("Profiles/" + first_name + last_name + "FOOD.txt", "a") as file:
+            file.write("\n")
+            file.write(index_dict[int(food_selection)])
+        # file = open("Profiles/" + first_name + last_name + "FOOD.txt", "w")
+        # file.write(index_dict[int(food_selection)] + "\n")
+    except FileNotFoundError:
+        file = open("Profiles/" + first_name + last_name + "FOOD.txt", "w+")
+        file.write(index_dict[int(food_selection)] + "\n")
+    finally:
+        file.close()
+
     loading_screen()
-    for i in range(7):
-        print("")
+    print()
     main_page()
 
-def remove_cal(food_remove):
-    # print_index = 1  # For printing dictionary
-    # for key in food_dict:
-    #     print(str(print_index) + ". " + key)
-    #     print_index += 1
+def remove_cal(food_remove, food_selection):
     try:
-        file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
-        val_line = file.readlines()
-        original_cal = float(val_line[0])
-        if original_cal >= food_dict[food_remove]:
-            new_cal = original_cal - food_dict[food_remove]
-        else:
-            print("Sorry, the value you wish to remove is greater than the existing total.")
-            print("Returning to Main Menu")
-            loading_screen()
-            main_page()
-        file = open("Profiles/" + first_name + last_name + "CAL.txt", "w")
-        file.write(str(new_cal) + "\r\n")
+        with open("Profiles/" + first_name + last_name + "FOOD.txt", "r") as file: #FIX TO CHECK FOR FOOD
+            for line in file:
+                stripped_line = line.strip()
+                if stripped_line == index_dict[int(food_selection)]:
+                    # print("HELLO")
+                    remove = 1
+                    break
+                else:
+                    remove = 0
     except FileNotFoundError:
         print("Your profile is new. No calories have been added as yet.")
         print("Returning to main menu")
         loading_screen()
         main_page()
-
     finally:
         file.close()
+
+    if remove == 1:
+        file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
+        val_line = file.readlines()
+        original_cal = float(val_line[0])
+        new_cal = original_cal - food_dict[food_remove]
+        file = open("Profiles/" + first_name + last_name + "CAL.txt", "w")
+        file.write(str(new_cal) + "\r\n")
+        file.close()
+
+        file = open("Profiles/" + first_name + last_name + "FOOD.txt", "r")
+        food_lines = file.readlines()
+        file.close()
+        file = open("Profiles/" + first_name + last_name + "FOOD.txt", "w")
+        for line in food_lines:
+            if line.strip("\n") != index_dict[int(food_selection)]:
+                file.write(line)
+        file.close()
+
+    else:
+        print("Sorry, the food you wish to remove is not in your profile")
+        print("Please try again with a food you have already consumed")
+        temp = input("Press enter to return to the main menu.")
+
     loading_screen()
-    for i in range(7):
-        print("")
+    print()
     main_page()
 
 def show_cal():
     try:
         file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
         val_line = file.readlines()
-        print("Today you have consumed ", val_line[0], " calories.")
+        print("Today you have consumed ", val_line[0].strip(), " calories.")
         temp = input("Press enter to return to the main menu.")
         loading_screen()
         main_page()
@@ -170,6 +195,7 @@ def show_cal():
         print("Your profile is new. No calories have been added as yet.")
         print("Returning to main menu")
         loading_screen()
+        print()
         main_page()
 
 # def add_food():
@@ -192,7 +218,7 @@ def prompt_food():
     for key in index_dict:
         if index_dict[key] == index_dict[int(food_selection)]:
             food_add = index_dict[key]
-    return food_add
+    return food_add, food_selection
 
 def main_page():
     print("What would you like to do " + first_name + "?")
@@ -202,11 +228,11 @@ def main_page():
     # print("4. Add new food to calorie tracker's database.")
     menu_selection = input("Enter the corresponding number to your selection (1/2/3): ")
     if int(menu_selection) == 1:
-        food_add = prompt_food()
-        add_cal(food_add)
+        food_add, food_selection = prompt_food()
+        add_cal(food_add, food_selection)
     elif int(menu_selection) == 2:
-        food_remove = prompt_food()
-        remove_cal(food_remove)
+        food_remove, food_selection = prompt_food()
+        remove_cal(food_remove, food_selection)
     elif int(menu_selection) == 3:
         show_cal()
     # elif int(menu_selection) == 4:
