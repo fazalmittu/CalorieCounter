@@ -19,7 +19,6 @@ try:
 except FileExistsError:
     print("")
 
-
 index_dict = {
     1 : "almond",
     2 : "energy bar",
@@ -34,6 +33,7 @@ index_dict = {
     11 : "banana",
     12 : "1 cup of blueberries"
 }
+
 food_dict = {
     "almond" : 8.15,
     "energy bar" : 140,
@@ -48,6 +48,12 @@ food_dict = {
     "banana" : 105,
     "1 cup of blueberries" : 85
 }
+
+def print_dict(dic):
+    print_index = 1
+    for key in dic:
+        print(str(print_index) + ". " + key)
+        print_index += 1
 
 def loading_screen():
     rand_int = np.random.randint(30)
@@ -97,15 +103,11 @@ def login():
 
 first_name, last_name = login()
 
-def add_cal():
-    print_index = 1 #For printing dictionary
-    for key in food_dict:
-        print(str(print_index) + ". " + key)
-        print_index += 1
-    food_selection = input("Enter the corresponding number of your selection: ")
-    for key in index_dict:
-        if index_dict[key] == index_dict[int(food_selection)]:
-            food_add = index_dict[key]
+def add_cal(food_add):
+    # print_index = 1 #For printing dictionary
+    # for key in food_dict:
+    #     print(str(print_index) + ". " + key)
+    #     print_index += 1
     try:
         file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
         val_line = file.readlines()
@@ -120,25 +122,22 @@ def add_cal():
         file.write(str(new_cal) + "\r\n")
     finally:
         file.close()
+    loading_screen()
     for i in range(7):
         print("")
     main_page()
 
-def remove_cal():
-    print_index = 1  # For printing dictionary
-    for key in food_dict:
-        print(str(print_index) + ". " + key)
-        print_index += 1
-    food_selection = input("Enter the corresponding number of your selection: ")
-    for key in index_dict:
-        if index_dict[key] == index_dict[int(food_selection)]:
-            food_add = index_dict[key]
+def remove_cal(food_remove):
+    # print_index = 1  # For printing dictionary
+    # for key in food_dict:
+    #     print(str(print_index) + ". " + key)
+    #     print_index += 1
     try:
         file = open("Profiles/" + first_name + last_name + "CAL.txt", "r")
         val_line = file.readlines()
         original_cal = float(val_line[0])
-        if original_cal >= food_dict[food_add]:
-            new_cal = original_cal - food_dict[food_add]
+        if original_cal >= food_dict[food_remove]:
+            new_cal = original_cal - food_dict[food_remove]
         else:
             print("Sorry, the value you wish to remove is greater than the existing total.")
             print("Returning to Main Menu")
@@ -173,22 +172,57 @@ def show_cal():
         loading_screen()
         main_page()
 
+# def add_food():
+#     food_selection = input("Enter the name of the food you would like to put in the system: ")
+#     food_cal = input("How many calories are in this new food: ")
+#     try:
+#         food_dict.update({food_selection: int(food_cal)})
+#         index_dict[len(index_dict) + 1] = food_selection
+#     except ValueError:
+#         print("Please enter a valid calorie amount")
+#         time.sleep(2)
+#         loading_screen()
+#         add_food()
+#     print(food_dict)
+
+
+def prompt_food():
+    print_dict(food_dict)
+    food_selection = input("Enter the corresponding number of your selection: ")
+    for key in index_dict:
+        if index_dict[key] == index_dict[int(food_selection)]:
+            food_add = index_dict[key]
+    return food_add
 
 def main_page():
     print("What would you like to do " + first_name + "?")
     print("1. Add an Item to your total calorie count.")
     print("2. Remove an Item from your total calorie count.")
     print("3. View total calorie count for the day.")
+    # print("4. Add new food to calorie tracker's database.")
     menu_selection = input("Enter the corresponding number to your selection (1/2/3): ")
     if int(menu_selection) == 1:
-        add_cal()
+        food_add = prompt_food()
+        add_cal(food_add)
     elif int(menu_selection) == 2:
-        remove_cal()
+        food_remove = prompt_food()
+        remove_cal(food_remove)
     elif int(menu_selection) == 3:
         show_cal()
+    # elif int(menu_selection) == 4:
+    #     add_food()
     else:
         print("Input not Accepted. Returning to Main Menu")
         loading_screen()
         main_page()
 
 main_page()
+
+
+
+
+
+
+
+
+
