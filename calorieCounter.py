@@ -3,7 +3,7 @@ import time
 import os
 
 dir = "Profiles"
-orig_dir = "/Users/fazalmittu/PycharmProjects/CalorieCounter/"
+orig_dir = "/Users/**********/PycharmProjects/CalorieCounter/" #ASTERISKS ARE FOR MY NAME (FILE PATH FOR PROFILES FOLDER)
 path = os.path.join(orig_dir, dir)
 
 try:
@@ -98,8 +98,6 @@ def add_cal(food_add, food_selection):
         with open("Profiles/" + first_name + last_name + "FOOD.txt", "a") as file:
             file.write("\n")
             file.write(index_dict[int(food_selection)])
-        # file = open("Profiles/" + first_name + last_name + "FOOD.txt", "w")
-        # file.write(index_dict[int(food_selection)] + "\n")
     except FileNotFoundError:
         file = open("Profiles/" + first_name + last_name + "FOOD.txt", "w+")
         file.write(index_dict[int(food_selection)] + "\n")
@@ -114,9 +112,8 @@ def remove_cal(food_remove, food_selection):
     try:
         with open("Profiles/" + first_name + last_name + "FOOD.txt", "r") as file: #FIX TO CHECK FOR FOOD
             for line in file:
-                stripped_line = line.strip()
-                if stripped_line == index_dict[int(food_selection)]:
-                    # print("HELLO")
+                str_line = line.strip()
+                if str_line == index_dict[int(food_selection)]:
                     remove = 1
                     break
                 else:
@@ -147,7 +144,7 @@ def remove_cal(food_remove, food_selection):
                 file.write(line)
         file.close()
 
-    else:
+    if remove == 0:
         print("Sorry, the food you wish to remove is not in your profile")
         print("Please try again with a food you have already consumed")
         temp = input("Press enter to return to the main menu.")
@@ -184,7 +181,6 @@ def main_page():
     print("1. Add an Item to your total calorie count.")
     print("2. Remove an Item from your total calorie count.")
     print("3. View total calorie count for the day.")
-    # print("4. Add new food to calorie tracker's database.")
     menu_selection = input("Enter the corresponding number to your selection (1/2/3): ")
     if int(menu_selection) == 1:
         food_add, food_selection = prompt_food()
@@ -194,8 +190,6 @@ def main_page():
         remove_cal(food_remove, food_selection)
     elif int(menu_selection) == 3:
         show_cal()
-    # elif int(menu_selection) == 4:
-    #     add_food()
     else:
         print("Input not Accepted. Returning to Main Menu")
         loading_screen()
