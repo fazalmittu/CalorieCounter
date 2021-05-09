@@ -26,7 +26,7 @@ index_dict = {
     12 : "1 cup of blueberries"
 }
 
-food_dict = {
+food_dict = { #All calorie values found on google
     "almond" : 8.15,
     "energy bar" : 140,
     "carrot" : 25,
